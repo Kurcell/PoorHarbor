@@ -98,17 +98,6 @@ public class DynamicSet<E> implements Set<E> {
 	
 		return this.theSet.equals(S2);
 	}
-	@Override
-	public Set<Set<E>> singletonSets() {
-		return theSet.singletonSets();
-	}
-	
-	public static boolean checkDisjoint(Object[] sets) {
-		Set<Integer> intersection = (Set<Integer>)sets[sets.length-1];
-		for(int i = sets.length-2;i>=0;i--) {
-			intersection = ((Set<Integer>) sets[i]).intersection(intersection);
-		}
-		return intersection.isEmpty();
-	}
+
 
 }

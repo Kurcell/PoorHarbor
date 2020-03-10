@@ -26,7 +26,18 @@ public class Candidate {
 		return ballots;
 	}
 	
+	public int getCount(int rank) {
+		int count = 0;
+		for(Ballot b : this.getBallots()) {
+			if(b.getRankByCandidate(this.ID) == rank) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	public void printCandidate() {
 		System.out.println(this.ID + this.name);
 	}
+	
 }

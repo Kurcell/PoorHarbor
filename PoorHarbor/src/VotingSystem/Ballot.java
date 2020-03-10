@@ -2,9 +2,8 @@ package VotingSystem;
 
 import Lists.ArrayList;
 
+
 import Lists.List;
-import Sets.DynamicSet;
-import Sets.Set;
 import VotingSystem.Candidate;
 
 public class Ballot {
@@ -23,6 +22,12 @@ public class Ballot {
 		}
 		public int getID() {
 			return this.ID;
+		}
+		public void setRank(int rank) {
+			this.rank = rank;
+		}
+		public void setID(int ID) {
+			this.ID = ID;
 		}
 	}
 
@@ -66,16 +71,45 @@ public class Ballot {
 	}
 
 	public void sortBallot() {
-		int ID = this.getFirstChoice();
-
+		
+		for(int i = 0;i < this.votes.size(); i++) {
+			Vote temp = new Vote(this.votes.get(i).ID + ":" + this.votes.get(i).rank);;
+		    int j = i - 1;
+		    while( j >= 0 && this.votes.get(j).rank > temp.rank) {
+		    	this.votes.get(j+1).setID(this.votes.get(j).getID());
+		    	this.votes.get(j+1).setRank(this.votes.get(j).getRank());
+		    	j--;
+		    }
+		    this.votes.get(j+1).setRank(temp.rank);
+		    this.votes.get(j+1).setID(temp.ID);
+		}
 	}
 
 	public boolean eliminateCandidate(int ID) { // Eliminates a candidate
-		return false;
+		int removedRank = 0;
+		for(Vote vote : this.votes) {
+			if (vote.ID == ID) {
+				removedRank = vote.rank;
+				votes.remove(vote);
+			}
+		}
+		for(Vote vote : this.votes) {
+			if (vote.rank > removedRank) {
+				vote.rank--;
+			}
+		}
+		return true;
 	}
 
 	public boolean isValid() { // Checks if a ballot is valid or not
+		this.sortBallot();
+		
+		if(!this.isBlank() &&this.getFirstChoice() == -1) return false;
+		
 		for(int i = 0;i<this.votes.size();i++) {
+			if(i<this.votes.size()-1 && this.votes.get(i).rank+1 != this.votes.get(i+1).rank) {
+				return false;
+			}
 			for(int j = i+1;j<this.votes.size();j++) {
 				if (this.votes.get(i).rank == this.votes.get(j).rank
 						|| this.votes.get(i).ID == this.votes.get(j).ID){
@@ -96,11 +130,12 @@ public class Ballot {
 	}
 
 
-	public void printBallot() { // Prints the ballot to the console for testing purposes
+	public void printBallot(int num) { // Prints the ballot to the console for testing purposes
 		System.out.println("Ballot: " + this.getBallotNum());
+		if(num == 1) {
 		for(int i = 0;i<this.votes.size();i++) {
 			System.out.println(this.votes.get(i).getRank() + ":" + this.votes.get(i).getID());
-		}
+		}}
 	}
 
 }

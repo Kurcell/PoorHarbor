@@ -147,24 +147,6 @@ public class StaticSet<E> implements Set<E> {
 	public boolean equals(Set<E> S2) {
 		return this.isSubSet(S2) && S2.isSubSet(this);
 	}
-
-	@Override
-	public Set<Set<E>> singletonSets() {
-		Set<Set<E>> result = new StaticSet<Set<E>>(this.size());
-		for(E e : this) {
-			Set<E> singleton = new StaticSet<E>(1);
-			singleton.add(e);
-			result.add(singleton);
-		}
-		return result;
-	}
 	
-	public static boolean checkDisjoint(Object[] sets) {
-		Set<Integer> intersection = (Set<Integer>)sets[sets.length-1];
-		for(int i = sets.length-2;i>=0;i--) {
-			intersection = ((Set<Integer>) sets[i]).intersection(intersection);
-		}
-		return intersection.isEmpty();
-	}
 
 }
