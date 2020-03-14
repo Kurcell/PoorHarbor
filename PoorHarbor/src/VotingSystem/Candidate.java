@@ -4,10 +4,18 @@ import Sets.DynamicSet;
 import Sets.Set;
 
 public class Candidate {
+	/** Candidate contains three private fields:
+	 * A string to store it's name, an integer that stores it's ID, and a set of ballots
+	 * that stores all the ballots in which the candidate's rank is 1. Filling the ballots set
+	 * is handled in the Election class.
+	 */
 	private String name;
 	private int ID;
 	private Set<Ballot> ballots = new DynamicSet<Ballot>(1);
 	
+	/** The constructor takes a string in format "candidateName,candidateId" and splits it
+	 * using String's split method and sets them to the candidate accordingly.
+	 */
 	public Candidate(String str) {
 		String[] data = str.split(",");
 		name = data[0];
@@ -24,20 +32,6 @@ public class Candidate {
 	
 	public Set<Ballot> getBallots(){
 		return ballots;
-	}
-	
-	public int getCount(int rank) {
-		int count = 0;
-		for(Ballot b : this.getBallots()) {
-			if(b.getRankByCandidate(this.ID) == rank) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public void printCandidate() {
-		System.out.println(this.ID + this.name);
 	}
 	
 }
