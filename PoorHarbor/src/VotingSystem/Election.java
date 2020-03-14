@@ -40,7 +40,7 @@ public class Election {
 	public static void main(String[] args) throws IOException {
 		Election election = new Election();
 		election.loadCandidates(new File("candidates.csv"));
-		election.loadBallots(new File("ballots2.csv"));
+		election.loadBallots(new File("ballots.csv"));
 		election.process();
 		writeResults(election.results); 
 	}
